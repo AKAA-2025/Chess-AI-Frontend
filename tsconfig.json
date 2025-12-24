@@ -3,5 +3,13 @@
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
-  ]
+  ],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "chess_game/*": ["./src/features/chess_game/*"],
+      "landing/*": ["./src/features/landing/*"],
+    }
+  },
 }
