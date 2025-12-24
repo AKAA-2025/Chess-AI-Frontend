@@ -11,6 +11,7 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
       "chess_game": path.resolve(__dirname, "./src/features/chess_game"),
       "landing": path.resolve(__dirname, "./src/features/landing"),
+      "shared": path.resolve(__dirname, "./src/shared"),
     },
   },
 });

@@ -1,6 +1,6 @@
-import { Target, TrendingUp } from "lucide-react";
+import { BarChart3, Target, TrendingUp, Zap } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, AreaChart } from 'recharts';
-import { StatsCards } from "./stats_cards";
+import { StatsCard } from "landing/presentation/components";
 
 function PerformanceGraph() {
   const performanceData = [
@@ -11,6 +11,13 @@ function PerformanceGraph() {
     { move: 20, accuracy: 97, winRate: 96 },
     { move: 25, accuracy: 98, winRate: 97 },
     { move: 30, accuracy: 99, winRate: 98 },
+  ];
+
+  const statsData = [
+    { label: "Games Analyzed", value: "2.4M+", icon: <BarChart3 /> },
+    { label: "Avg Response Time", value: "0.3s", icon: <Zap /> },
+    { label: "ELO Rating", value: "3200+", icon: <TrendingUp /> },
+    { label: "Win Rate", value: "98%", icon: <Target /> },
   ];
 
   return (
@@ -66,7 +73,9 @@ function PerformanceGraph() {
           </div>
         </div>
 
-        <StatsCards />
+        { statsData.map((stats, idx) => (
+          <StatsCard key={idx} icon={stats.icon} label={stats.label} value={stats.value} />
+        ))}
       </div>
   )
 }

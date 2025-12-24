@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Brain, Zap, Target, Cpu } from 'lucide-react';
+import { Brain, Zap, Target } from 'lucide-react';
+import { Navbar } from '@/shared/components';
 
 function HeroSection() {
   const [isVisible, setIsVisible] = useState(false);
@@ -18,19 +19,7 @@ function HeroSection() {
       <div className="relative overflow-hidden">
         <div className="absolute inset-0 bg-linear-to-br from-[#6B0D00]/5 to-transparent" />
         
-        <nav className="relative px-6 py-4 flex justify-between items-center max-w-7xl mx-auto">
-          <div className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-linear-to-br from-[#6B0D00] to-[#8B1000] rounded-lg flex items-center justify-center">
-              <Cpu className="w-6 h-6 text-white" />
-            </div>
-            <span className="text-2xl font-bold text-[#6B0D00]">ChessAI</span>
-          </div>
-          <div className="flex gap-6 text-sm font-medium text-gray-600">
-            <a href="#features" className="hover:text-[#6B0D00] transition-colors">Features</a>
-            <a href="#analytics" className="hover:text-[#6B0D00] transition-colors">Analytics</a>
-            <a href="#performance" className="hover:text-[#6B0D00] transition-colors">Performance</a>
-          </div>
-        </nav>
+        <Navbar />
 
         <div className={`relative max-w-7xl mx-auto px-6 py-20 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <div className="text-center space-y-6 mb-12">

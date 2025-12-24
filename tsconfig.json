@@ -10,6 +10,7 @@
       "@/*": ["./src/*"],
       "chess_game/*": ["./src/features/chess_game/*"],
       "landing/*": ["./src/features/landing/*"],
+      "shared/*": ["./src/shared/*"],
     }
   },
 }
