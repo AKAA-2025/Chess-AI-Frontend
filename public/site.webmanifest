@@ -1,6 +1,6 @@
 {
   "name": "Chess AI",
-  "short_name": "ChessAI",
+  "short_name": "Chess",
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",

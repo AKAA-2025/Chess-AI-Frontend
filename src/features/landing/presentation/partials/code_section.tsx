@@ -17,22 +17,25 @@ function CodeSection({ code, language }: CodeSectionProps) {
 
       <div className="relative group">
         <div className="absolute -inset-1 bg-linear-to-r from-[#6B0D00] to-[#A01000] rounded-2xl opacity-25 group-hover:opacity-50 blur transition-all duration-300" />
-        <div className="relative bg-[#011627] rounded-2xl p-8 shadow-2xl overflow-hidden">
+        <div className="relative bg-[#292d3e] rounded-2xl p-8 shadow-2xl overflow-hidden">
           <div className="flex items-center gap-2 mb-4">
             <div className="flex gap-2">
               <div className="w-3 h-3 rounded-full bg-red-500" />
               <div className="w-3 h-3 rounded-full bg-yellow-500" />
               <div className="w-3 h-3 rounded-full bg-green-500" />
             </div>
-            <span className="ml-4 text-gray-400 text-sm font-mono font-bold">chess_ai_engine.py</span>
+            <span
+              className="ml-4 text-gray-400 text-sm font-bold"
+              style={{fontFamily: "JetBrains Mono"}}
+            > search.cpp </span>
           </div>
           <Highlight
-            theme={themes.nightOwl}
+            theme={themes.palenight}
             code={code}
             language={language}
           >
             {({ style, tokens, getLineProps, getTokenProps }) => (
-              <pre style={style}>
+              <pre style={{ ...style, fontFamily: "JetBrains Mono" }}>
                 {tokens.map((line, i) => (
                   <div key={i} {...getLineProps({ line })}>
                     <span>{i + 1}</span>
@@ -44,11 +47,6 @@ function CodeSection({ code, language }: CodeSectionProps) {
               </pre>
             )}
           </Highlight>
-          <div className="absolute bottom-4 right-4">
-            <div className="bg-[#012725] text-white px-4 py-2 rounded-lg text-sm font-medium">
-              99.2% Accuracy
-            </div>
-          </div>
         </div>
       </div>
     </div>

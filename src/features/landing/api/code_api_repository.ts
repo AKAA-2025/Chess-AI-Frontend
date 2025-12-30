@@ -1,42 +1,30 @@
 import type { CodeRepository } from "landing/domain/repository";
 import type { CodeSnippet } from "landing/domain/model";
 
-const _codeSnippet = `
-    class ChessAI:
-        def __init__(self, depth=5):
-            self.depth = depth
-            self.neural_net = NeuralNetwork(layers=[768, 512, 256, 1])
-            self.position_cache = {}
-            
-        def evaluate_position(self, board):
-            # Extract features from board state
-            features = self.extract_features(board)
-            
-            # Neural network evaluation
-            score = self.neural_net.forward(features)
-            
-            # Combine with traditional evaluation
-            material = self.evaluate_material(board)
-            position = self.evaluate_position_value(board)
-            
-            return 0.7 * score + 0.2 * material + 0.1 * position
-        
-        def find_best_move(self, board):
-            # Alpha-beta pruning with neural guidance
-            best_move = None
-            alpha, beta = -float('inf'), float('inf')
-            
-            for move in board.legal_moves:
-                board.push(move)
-                value = -self.minimax(board, self.depth-1, -beta, -alpha)
-                board.pop()
-                
-                if value > alpha:
-                    alpha = value
-                    best_move = move
-                    
-            return best_move, alpha
-`;
+const _codeSnippet = `  SearchResult Worker::search(const SearchConfig& config) {
+      should_stop = false;
+      stats.reset();
+      search_start_time = std::chrono::steady_clock::now();
+      max_time_ms = config.max_time_ms;
+      
+      SearchResult result;
+      
+      if (config.use_iterative_deepening) {
+          result = iterativeDeepening(config.max_depth, config.max_time_ms);
+      } else {
+          result.best_move = searchRoot(config.max_depth);
+          result.score = alphaBetaRecursive(config.max_depth, -INFINITY_SCORE, 
+                                            INFINITY_SCORE, 0);
+          result.depth = config.max_depth;
+          result.stats = stats;
+      }
+      
+      auto end_time = std::chrono::steady_clock::now();
+      result.stats.time_elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+          end_time - search_start_time);
+      
+      return result;
+  }`;
 
 export class CodeApiRepository implements CodeRepository {
   getCodeSnippet = async (): Promise<CodeSnippet> => {

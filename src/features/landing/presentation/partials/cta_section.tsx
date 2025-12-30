@@ -1,6 +1,6 @@
 function CTASection() {
   return (
-    <div className="max-w-7xl mx-auto px-6 py-20">
+    <div className="mt-8 max-w-7xl mx-auto px-6 py-20">
       <div className="rounded-3xl p-12 md:p-16 text-center relative overflow-hidden">
         <div className="relative z-10">
           <h2 className="text-4xl md:text-5xl font-bold text-black mb-6">

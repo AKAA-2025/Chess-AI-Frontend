@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { HeroSection, CTASection, Footer, FeaturesGrid, CodeSection, PerformanceGraph } from './partials';
+import { HeroSection, CTASection, FeaturesGrid, CodeSection, PerformanceGraph, StatsCards } from './partials';
 import { useUseCases } from '@/shared/hooks/use_use_cases';
+import { Footer } from '@/shared/components';
 
 const LandingPage = () => {
   const { getCodeSnippet } = useUseCases();
@@ -8,20 +9,25 @@ const LandingPage = () => {
   const [codeSnippet, setCodeSnippet] = useState<string>("");
 
   useEffect(() => {
-    getCodeSnippet.execute().then((snippet) => {
+    const ph = async () => {
+      const snippet = await getCodeSnippet.execute()
       setCodeSnippet(snippet.content);
-    });
+    }
+
+    ph();
   }, []);
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-amber-50 via-white to-red-50">
+    <div className="min-h-screen w-screen bg-linear-to-br from-amber-50 via-white to-red-50">
       <HeroSection />
 
       <FeaturesGrid />
 
-      <CodeSection code={codeSnippet} language='python'/>
+      <CodeSection code={codeSnippet} language='cpp'/>
 
       <PerformanceGraph />
+
+      <StatsCards />
 
       <CTASection />
 
