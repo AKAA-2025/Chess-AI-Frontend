@@ -22,7 +22,6 @@ const ChessGameplay = () => {
   const [playerTime, setPlayerTime] = useState(600); // 10 minutes
   const [aiTime, setAiTime] = useState(600);
   const [timerActive, setTimerActive] = useState(false);
-  const [showResignConfirm, setShowResignConfirm] = useState(false);
 
   const [ hasGameStarted, setHasGameStarted ] = useState(false); 
 
@@ -239,7 +238,6 @@ const ChessGameplay = () => {
 
   const handleResign = () => {
     endGame('ai', 'You resigned');
-    setShowResignConfirm(false);
   };
 
   const resetGame = () => {
