@@ -1,7 +1,7 @@
 export interface Move {
   moveNumber: number;
-  white?: string;
-  black?: string;
+  whiteNotation?: string;
+  blackNotation?: string;
   whiteTime?: number;
   blackTime?: number;
 }

@@ -7,6 +7,9 @@ import { UseCasesContext } from "shared/ctx";
 import ChessGameplay from "@/features/chess_game/presentation";
 import NotFound from "@/features/not_found/presentation";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { GetOpponentMove } from "@/features/chess_game/usecase/get_opponent_move";
+import { MoveApiRepository } from "@/features/chess_game/api/move_api_repository";
+import { MoveRemoteDataSource } from "@/features/chess_game/RDS/move_rds";
 
 const routes = createBrowserRouter([
   {
@@ -26,6 +29,7 @@ const routes = createBrowserRouter([
 function App() {
   const useCases: UseCases = {
     getCodeSnippet: new GetCodeSnippet(new CodeApiRepository()),
+    getOpponentMove : new GetOpponentMove(new MoveApiRepository(new MoveRemoteDataSource())),
   };
 
   return (

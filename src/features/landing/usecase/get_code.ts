@@ -1,4 +1,4 @@
-import type { CodeRepository } from "../domain/repository";
+import type { CodeRepository } from "landing/repository";
 
 export class GetCodeSnippet {
   private repo: CodeRepository;

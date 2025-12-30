@@ -3,10 +3,12 @@ import { Chessboard, type PieceDropHandlerArgs } from 'react-chessboard';
 import { Chess } from 'chess.js';
 import { Clock, Flag, MessageSquare, User, Cpu, TrendingDown, Trophy, Target } from 'lucide-react';
 import type { Move, ChatMessage, GameResult } from 'chess_game/domain';
-import { PerformanceGraph } from './partials';
+import { WelcomeScreen, GameResultPopup, PerformanceGraph } from './partials';
 import { Navbar } from '@/shared/components';
 import AIProfile from '@/shared/assets/ai_profile.jpg';
 import { Footer } from '@/shared/components';
+import { useTimer } from './hooks';
+import type { Timer } from './interface';
 
 const ChessGameplay = () => {
   const [game, setGame] = useState(new Chess());
@@ -19,38 +21,19 @@ const ChessGameplay = () => {
   const [thinking, setThinking] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [gameResult, setGameResult] = useState<GameResult | null>(null);
-  const [playerTime, setPlayerTime] = useState(600); // 10 minutes
-  const [aiTime, setAiTime] = useState(600);
   const [timerActive, setTimerActive] = useState(false);
 
-  const [ hasGameStarted, setHasGameStarted ] = useState(false); 
+  const [ hasGameStarted, setHasGameStarted ] = useState(false);
 
-  // Timer effect
-  useEffect(() => {
-    if (!timerActive || gameOver) return;
+  const playerTime: Timer = useTimer({
+    initialTime: 0,
+    autoStart: false,
+  });
 
-    const interval = setInterval(() => {
-      if (isPlayerTurn) {
-        setPlayerTime(prev => {
-          if (prev <= 1) {
-            handleTimeout('player');
-            return 0;
-          }
-          return prev - 1;
-        });
-      } else {
-        setAiTime(prev => {
-          if (prev <= 1) {
-            handleTimeout('ai');
-            return 0;
-          }
-          return prev - 1;
-        });
-      }
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [timerActive, isPlayerTurn, gameOver]);
+  const aiTime: Timer = useTimer({
+    initialTime: 0,
+    autoStart: false,
+  });
 
   const handleTimeout = (player: 'player' | 'ai') => {
     setGameOver(true);
@@ -240,22 +223,6 @@ const ChessGameplay = () => {
     endGame('ai', 'You resigned');
   };
 
-  const resetGame = () => {
-    const newGame = new Chess();
-    setGame(newGame);
-    setPosition(newGame.fen());
-    setMoveHistory([]);
-    setChatMessages([
-      { message: "Ready for another game? Let's do this! 💪", timestamp: Date.now() }
-    ]);
-    setIsPlayerTurn(true);
-    setGameOver(false);
-    setGameResult(null);
-    setPlayerTime(600);
-    setAiTime(600);
-    setTimerActive(false);
-  };
-
   const chessboardOptions = {
     position: position,
     onPieceDrop: onDrop,
@@ -276,32 +243,7 @@ const ChessGameplay = () => {
         <Navbar />
 
         { !hasGameStarted && (
-          <div className='w-full max-w-260 mt-24 px-12 h-130 flex justify-center'>
-            <div className='h-[70%] rounded-3xl border-8 border-red-950'>
-              <div
-                className='h-full rounded-3xl aspect-square bg-cover bg-center'
-                style={{backgroundImage: `url(${AIProfile})`}}
-              >
-            </div>
-
-            </div>
-            <div className='w-full pt-8 pl-16 flex flex-col rounded-2xl'>
-                <h1 className="pb-4 text-4xl font-bold text-gray-900">
-                  Play Against <span className="text-[#6B0D00]">Chess AI</span>
-                </h1>
-                <p className="pb-8 text-gray-600 text-lg leading-relaxed">
-                  A fast, responsive chess AI designed for serious gameplay. <br />
-                  Try the demo and explore intelligent move generation, deep analysis, and smooth play—right in your browser.
-                </p>
-                <button
-                  className='group relative h-16 w-52 text-xl font-semibold rounded-lg bg-linear-to-r from-[#6B0D00] to-[#8B1000] text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer'
-                  onClick={() => setHasGameStarted(true)}
-                >
-                  <span className='relative z-10'>Play Now</span>
-                  <div className="absolute inset-0 bg-linear-to-r from-[#8B1000] to-[#6B0D00] rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                </button>
-            </div>
-          </div>
+          <WelcomeScreen setState={setHasGameStarted}/>
         )}
 
         {/* Main Game Area */}
@@ -440,81 +382,13 @@ const ChessGameplay = () => {
 
         {/* Game Result Popup */}
         {gameOver && gameResult && (
-          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-3xl shadow-2xl max-w-2xl w-full p-8 relative overflow-hidden">
-              {/* Background decoration */}
-              <div className="absolute top-0 right-0 text-[#6B0D00]/5 text-9xl font-serif">
-                {gameResult.winner === 'player' ? '♔' : gameResult.winner === 'ai' ? '♚' : '='}
-              </div>
-              
-              <div className="relative z-10">
-                {/* Result Icon */}
-                <div className={`w-20 h-20 mx-auto mb-6 rounded-full flex items-center justify-center ${
-                  gameResult.winner === 'player' 
-                    ? 'bg-linear-to-br from-green-400 to-green-600' 
-                    : gameResult.winner === 'ai'
-                    ? 'bg-linear-to-br from-red-400 to-red-600'
-                    : 'bg-linear-to-br from-gray-400 to-gray-600'
-                }`}>
-                  {gameResult.winner === 'player' ? (
-                    <Trophy className="w-10 h-10 text-white" />
-                  ) : gameResult.winner === 'ai' ? (
-                    <TrendingDown className="w-10 h-10 text-white" />
-                  ) : (
-                    <Target className="w-10 h-10 text-white" />
-                  )}
-                </div>
-
-                {/* Result Text */}
-                <h2 className={`text-4xl font-bold text-center mb-2 ${
-                  gameResult.winner === 'player' 
-                    ? 'text-green-600' 
-                    : gameResult.winner === 'ai'
-                    ? 'text-red-600'
-                    : 'text-gray-600'
-                }`}>
-                  {gameResult.winner === 'player' ? 'Victory!' : gameResult.winner === 'ai' ? 'Defeat' : 'Draw'}
-                </h2>
-                <p className="text-center text-gray-600 mb-8">{gameResult.reason}</p>
-
-                {/* Stats Grid */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                  <div className="bg-linear-to-br from-[#6B0D00]/5 to-transparent p-4 rounded-xl text-center border border-gray-200">
-                    <div className="text-2xl font-bold text-gray-900">{gameResult.totalMoves}</div>
-                    <div className="text-sm text-gray-600">Total Moves</div>
-                  </div>
-                  <div className="bg-linear-to-br from-[#6B0D00]/5 to-transparent p-4 rounded-xl text-center border border-gray-200">
-                    <div className="text-2xl font-bold text-gray-900">{gameResult.accuracy}%</div>
-                    <div className="text-sm text-gray-600">Accuracy</div>
-                  </div>
-                  <div className="bg-linear-to-br from-[#6B0D00]/5 to-transparent p-4 rounded-xl text-center border border-gray-200">
-                    <div className="text-2xl font-bold text-gray-900">{gameResult.playerRating}</div>
-                    <div className="text-sm text-gray-600">Your ELO</div>
-                  </div>
-                  <div className="bg-linear-to-br from-[#6B0D00]/5 to-transparent p-4 rounded-xl text-center border border-gray-200">
-                    <div className="text-2xl font-bold text-gray-900">{gameResult.aiRating}</div>
-                    <div className="text-sm text-gray-600">AI ELO</div>
-                  </div>
-                </div>
-
-                {/* Action Buttons */}
-                <div className="flex gap-4">
-                  <button
-                    onClick={resetGame}
-                    className="flex-1 px-6 py-4 bg-linear-to-r from-[#6B0D00] to-[#8B1000] text-white rounded-xl font-bold hover:shadow-lg transition-all duration-300 hover:scale-105"
-                  >
-                    Play Again
-                  </button>
-                  <button
-                    onClick={() => setGameResult(null)}
-                    className="flex-1 px-6 py-4 border-2 border-[#6B0D00] text-[#6B0D00] rounded-xl font-bold hover:bg-[#6B0D00] hover:text-white transition-all duration-300"
-                  >
-                    View Analysis
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+          <GameResultPopup gameResult={gameResult} setAiTime={setAiTime}
+            setChatMessages={setChatMessages} setGameOver={setGameOver}
+            setGameResult={setGameResult} setIsPlayerTurn={setIsPlayerTurn}
+            setMoveHistory={setMoveHistory} setPlayerTime={setPlayerTime}
+            setPosition={setPosition} setTimerActive={setTimerActive}
+            setGame={setGame}
+          />
         )}
 
         {/* AI Performance Graph (shown after game) */}

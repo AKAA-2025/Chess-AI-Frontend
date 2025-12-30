@@ -1,4 +1,4 @@
-import type { CodeRepository } from "landing/domain/repository";
+import type { CodeRepository } from "landing/repository";
 import type { CodeSnippet } from "landing/domain/model";
 
 const _codeSnippet = `  SearchResult Worker::search(const SearchConfig& config) {
