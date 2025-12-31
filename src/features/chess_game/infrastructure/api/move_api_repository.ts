@@ -1,7 +1,7 @@
-import type { ApiMoveResponse } from "../domain/model";
-import type { ApiMoveRequest } from "../domain/model/api_move_request";
-import { MoveRemoteDataSource } from "../RDS/move_rds";
-import type { MoveRepository } from "../repository/move_repository";
+import type { ApiMoveResponse } from "chess_game/infrastructure/interface";
+import type { ApiMoveRequest } from "chess_game/infrastructure/interface";
+import { MoveRemoteDataSource } from "chess_game/RDS/move_rds";
+import type { MoveRepository } from "chess_game/repository/move_repository";
 
 export class MoveApiRepository implements MoveRepository {
   private readonly remote: MoveRemoteDataSource;

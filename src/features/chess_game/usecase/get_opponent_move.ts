@@ -1,5 +1,5 @@
-import type { ApiMoveRequest } from "../domain/model/api_move_request";
-import type { MoveRepository } from "../repository/move_repository";
+import type { ApiMoveRequest } from "chess_game/infrastructure/interface";
+import type { MoveRepository } from "chess_game/repository";
 
 export class GetOpponentMove {
   private repo: MoveRepository;

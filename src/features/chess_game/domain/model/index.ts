@@ -3,6 +3,4 @@ export * from "./chat_message";
 export * from "./game_result";
 export * from './timer';
 export * from './game_state';
-export * from './route';
-export * from './api_move_response';
 export * from './use_game_return';

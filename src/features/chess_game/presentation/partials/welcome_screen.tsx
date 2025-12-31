@@ -1,10 +1,11 @@
 import AIProfile from '@/shared/assets/ai_profile.jpg';
 
 type WelcomeScreenProps = {
-  setState: React.Dispatch<React.SetStateAction<boolean>>;
+  startGame: () => void;
+  setVisible: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-function WelcomeScreen({ setState }: WelcomeScreenProps) {
+function WelcomeScreen({ startGame, setVisible }: WelcomeScreenProps) {
     return (
       <div className='w-full max-w-260 mt-24 px-12 h-130 flex justify-center'>
         <div className='h-[70%] rounded-3xl border-8 border-red-950'>
@@ -25,7 +26,10 @@ function WelcomeScreen({ setState }: WelcomeScreenProps) {
             </p>
             <button
               className='group relative h-16 w-52 text-xl font-semibold rounded-lg bg-linear-to-r from-[#6B0D00] to-[#8B1000] text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer'
-              onClick={() => setState(true)}
+              onClick={() => {
+                setVisible(false);
+                startGame();
+              }}
             >
               <span className='relative z-10'>Play Now</span>
               <div className="absolute inset-0 bg-linear-to-r from-[#8B1000] to-[#6B0D00] rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
