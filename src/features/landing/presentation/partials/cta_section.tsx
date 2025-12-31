@@ -1,4 +1,8 @@
+import { useNavigate } from "react-router-dom";
+
 function CTASection() {
+  const navigate = useNavigate();
+
   return (
     <div className="mt-8 max-w-7xl mx-auto px-6 py-20">
       <div className="rounded-3xl p-12 md:p-16 text-center relative overflow-hidden">
@@ -9,7 +13,10 @@ function CTASection() {
           <p className="text-xl text-black font-light mb-8 max-w-2xl mx-auto">
             Test your skills against our advanced chess AI and see how you measure up
           </p>
-          <button className="bg-[#6B0D00] text-white px-10 py-5 rounded-xl font-bold text-lg cursor-pointer hover:bg-red-900 transition-all duration-300 hover:scale-105 shadow-xl">
+          <button
+            className="bg-[#6B0D00] text-white px-10 py-5 rounded-xl font-bold text-lg cursor-pointer hover:bg-red-900 transition-all duration-300 hover:scale-105 shadow-xl"
+            onClick={() => navigate("/chess")}
+          >
             Start Playing Now
           </button>
         </div>

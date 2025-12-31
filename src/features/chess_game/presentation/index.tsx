@@ -6,15 +6,22 @@ import AIProfile from '@/shared/assets/ai_profile.jpg';
 import { Footer } from '@/shared/components';
 import { useGame } from './hooks/useGame';
 import { BLACK, WHITE } from 'chess.js';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { formatTime } from './utils';
 import ConnectionErrorPopup from './components/popup_error';
 import { useNavigate } from 'react-router-dom';
+import { cn } from '@/shared/lib/utils';
 
 const ChessGameplay = () => {
   const [visible, setVisible] = useState<boolean>(true);
+  const [isLandingVisible, setIsLandingVisible] = useState<boolean>(false);
+
   const game = useGame();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setIsLandingVisible(true);
+  }, []);
 
   const handlePieceDrop = ({
     sourceSquare,
@@ -46,7 +53,7 @@ const ChessGameplay = () => {
   }
 
   return (
-    <div className="relative min-h-screen w-screen bg-linear-to-br from-amber-50 via-white to-red-50 px-4">
+    <div className={cn("relative min-h-screen w-screen bg-linear-to-br from-amber-50 via-white to-red-50 px-4", `transition-all duration-1000 ${isLandingVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`)}>
       <div className="absolute inset-0 bg-linear-to-br from-[#6B0D00]/5 to-transparent"/>
       <div className="relative w-full flex flex-col items-center gap-8">
         <Navbar />

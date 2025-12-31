@@ -1,13 +1,15 @@
 import AIProfile from '@/shared/assets/ai_profile.jpg';
+import { cn } from '@/shared/lib/utils';
 
 type WelcomeScreenProps = {
+  classname?: string;
   startGame: () => void;
-  setVisible: React.Dispatch<React.SetStateAction<boolean>>
+  setVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function WelcomeScreen({ startGame, setVisible }: WelcomeScreenProps) {
+function WelcomeScreen({ classname, startGame, setVisible }: WelcomeScreenProps) {
     return (
-      <div className='w-full max-w-260 mt-24 px-12 h-130 flex justify-center'>
+      <div className={cn('w-full max-w-260 mt-24 px-12 h-130 flex justify-center', classname)}>
         <div className='h-[70%] rounded-3xl border-8 border-red-950'>
           <div
             className='h-full rounded-3xl aspect-square bg-cover bg-center'
